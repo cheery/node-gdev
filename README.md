@@ -1,6 +1,6 @@
 # video device library
 
-Purpose of this library is to make access to graphics hardware really easy.
+Purpose of this library is to make access to graphics hardware really easy. Motivation is to get people experimenting with different wild desktop environments, improve conditions at the linux desktop and provide little bit more graphical freedom in small increments.
 
 Beta version will support at least raspberry pi. We will implement C-API portability layer for other languages to implement same functionality.
 
