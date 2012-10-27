@@ -16,7 +16,8 @@ It draws a rectangle similar to `hello_dispmanx` -demo in raspberry pi's firmwar
 In future, you may open a context to a display simply by stating:
 
     var video = require('video');
-    var dpy = video.openDisplay(0);
+    var display = require('video/display');
+    var primary = display.open(0);
 
     var gl = dpy.getContext("webgl");
 
@@ -26,10 +27,11 @@ In future, you may open a context to a display simply by stating:
 In future, you may also pass the display handle to an another process with ease, details are still bit unclear but maybe it'll be something like this:
 
     var video = require('video');
-    var dpy = video.openDisplay(0);
+    var display = require('video/display');
+    var primary = display.open(0);
     
     client.on_fullscreen_request (response) ->
-        response(dpy.handle);
+        response(primary.handle);
 
 Desktop compositing will be supported in some platform-independent way. We'll try to keep it as simple as possible, depending
 how flexible our early testing machines will be.
