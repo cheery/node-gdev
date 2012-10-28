@@ -1,4 +1,4 @@
-# video/wscript
+# display/wscript
 import Options
 
 def set_options(opt):
