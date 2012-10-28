@@ -1,23 +1,44 @@
 #include <v8.h>
 #include <node.h>
-
-#include "bcm_host.h"
-
-#include "display.h"
+#include <node_buffer.h>
 
 using namespace v8;
 
 extern "C" {
-//    some setting seems to break this feature.
-//    Handle<Value> CreateDisplay(const Arguments& args) {
-//        HandleScope scope;
-//        return scope.Close(Display::NewInstance(args));
-//    }
-
-    static void InitAlt(Handle<Object> target) {
-        Display::Init(target);
-//        target->Set(String::New("createDisplay"),
-//            FunctionTemplate::New(CreateDisplay)->GetFunction());
-    }
-    NODE_MODULE(video, InitAlt)
+#include "video.h"
+//#include <assert.h>
 }
+
+#include "context.cc"
+
+Handle<Value> GetVideoContext(const Arguments& args) {
+    HandleScope scope;
+    return scope.Close(VideoContext::NewInstance(args));
+}
+
+#include "GLES2/gl2.h"
+
+Handle<Value> Demonstrate(const Arguments& args) {
+    HandleScope scope;
+    double r = args[0]->NumberValue();
+    double g = args[1]->NumberValue();
+    double b = args[2]->NumberValue();
+    double a = args[3]->NumberValue();
+    glClearColor(r,g,b,a);
+    glClear(GL_COLOR_BUFFER_BIT);
+    return Undefined();
+}
+
+static void Init(Handle<Object> target) {
+    printf("Init()\n");
+    VideoContext::Init(target);
+    printf("Init().36\n");
+    printf("Init().38\n");
+    target->Set(String::NewSymbol("getContext"),
+        FunctionTemplate::New(GetVideoContext)->GetFunction());
+    printf("Init().39\n");
+    target->Set(String::NewSymbol("demonstrate"),
+        FunctionTemplate::New(Demonstrate)->GetFunction());
+    printf("Init().42\n");
+}
+NODE_MODULE(video, Init)
