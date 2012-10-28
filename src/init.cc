@@ -6,19 +6,14 @@ using namespace v8;
 
 extern "C" {
 #include "video.h"
-//#include <assert.h>
 }
 
 #include "videocontext.h"
 #include "webgl/renderer.h"
 
-//#include "context.cc"
-//
-
 class LinuxVideoContext : public IVideoContext {
     private:
         SURFACE_T surface;
-        bool current; //hacky hacky (actually could fix this)
     public:
         LinuxVideoContext(char* nativewindow, size_t length) {
             assert (length == sizeof(uint32_t)*NATIVEWINDOW_SIZE);
@@ -29,12 +24,11 @@ class LinuxVideoContext : public IVideoContext {
         };
 
         bool IsCurrent() {
-            return current;
+            return videoIsCurrent(surface);
         };
 
         void MakeCurrent() {
             videoMakeCurrent(surface);
-            current = true;
         };
 
         void SwapBuffers() {

@@ -113,6 +113,11 @@ void videoMakeCurrent(SURFACE_T p) {
     assert(EGL_FALSE != result);
 }
 
+int videoIsCurrent(SURFACE_T p) {
+    EGLContext context = eglGetCurrentContext();
+    return p->context == context;
+}
+
 void videoSwapBuffers(SURFACE_T p) {
     // eglFlushBRCM() if things don't work out
     eglSwapBuffers(display, p->surface);
