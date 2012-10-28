@@ -7,9 +7,9 @@ Beta version will support at least raspberry pi. We will implement C-API portabi
 ## try it out
 
     node-waf configure build
-    node demo.js
+    ./node-video demo.js
 
-It draws a rectangle similar to `hello_dispmanx` -demo in raspberry pi's firmware repository.
+It clears screen to gray, waits 2 seconds and then exits.
 
 ## future
 
