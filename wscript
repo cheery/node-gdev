@@ -49,4 +49,4 @@ def build(bld):
         "-lvideo",
     ]
     obj.target = "video"
-    obj.source = "src/init.cc"
+    obj.source = "src/init.cc src/webgl/renderer.cc"

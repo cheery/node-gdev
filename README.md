@@ -9,7 +9,7 @@ Beta version will support at least raspberry pi. We will implement C-API portabi
     node-waf configure build
     ./node-video demo.js
 
-It clears screen to gray, waits 2 seconds and then exits.
+It shuffles random colors through the screen. The webgl API is still a stub, but features glClear and glClearColor already.
 
 ## future
 
@@ -23,6 +23,7 @@ In future, you may open a context to a display simply by stating:
 
     gl.clearColor(0.5, 0.5, 0.5, 0.5);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.swapBuffers();
 
 In future, you may also pass the display handle to an another process with ease, details are still bit unclear but maybe it'll be something like this:
 

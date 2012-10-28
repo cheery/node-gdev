@@ -9,36 +9,56 @@ extern "C" {
 //#include <assert.h>
 }
 
-#include "context.cc"
+#include "videocontext.h"
+#include "webgl/renderer.h"
+
+//#include "context.cc"
+//
+
+class LinuxVideoContext : public IVideoContext {
+    private:
+        SURFACE_T surface;
+        bool current; //hacky hacky (actually could fix this)
+    public:
+        LinuxVideoContext(char* nativewindow, size_t length) {
+            assert (length == sizeof(uint32_t)*NATIVEWINDOW_SIZE);
+            surface = videoCreateNative((uint32_t*)nativewindow);
+        };
+        ~LinuxVideoContext() {
+            videoDestroySurface(surface);
+        };
+
+        bool IsCurrent() {
+            return current;
+        };
+
+        void MakeCurrent() {
+            videoMakeCurrent(surface);
+            current = true;
+        };
+
+        void SwapBuffers() {
+            videoSwapBuffers(surface);
+        };
+
+        void Close() {
+            delete this;
+        };
+};
 
 Handle<Value> GetVideoContext(const Arguments& args) {
     HandleScope scope;
-    return scope.Close(VideoContext::NewInstance(args));
-}
-
-#include "GLES2/gl2.h"
-
-Handle<Value> Demonstrate(const Arguments& args) {
-    HandleScope scope;
-    double r = args[0]->NumberValue();
-    double g = args[1]->NumberValue();
-    double b = args[2]->NumberValue();
-    double a = args[3]->NumberValue();
-    glClearColor(r,g,b,a);
-    glClear(GL_COLOR_BUFFER_BIT);
-    return Undefined();
+    Local<Object> buffer_obj = args[0]->ToObject();
+    char *buffer_data = node::Buffer::Data(buffer_obj);
+    size_t buffer_length = node::Buffer::Length(buffer_obj);
+    return scope.Close(webgl::Renderer::Synthesize(
+        (IVideoContext*)(new LinuxVideoContext(buffer_data, buffer_length))
+    ));
 }
 
 static void Init(Handle<Object> target) {
-    printf("Init()\n");
-    VideoContext::Init(target);
-    printf("Init().36\n");
-    printf("Init().38\n");
+    webgl::Renderer::Init(target);
     target->Set(String::NewSymbol("getContext"),
         FunctionTemplate::New(GetVideoContext)->GetFunction());
-    printf("Init().39\n");
-    target->Set(String::NewSymbol("demonstrate"),
-        FunctionTemplate::New(Demonstrate)->GetFunction());
-    printf("Init().42\n");
 }
 NODE_MODULE(video, Init)
