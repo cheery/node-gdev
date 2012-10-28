@@ -93,5 +93,6 @@ Handle<Value> Display::HandleGetter(Local<String> property, const AccessorInfo& 
     Display* obj = ObjectWrap::Unwrap<Display>(info.This());
     uint32_t nativewindow[NATIVEWINDOW_SIZE];
     displayGetHandle(obj->display, nativewindow);
-    return node::Encode(nativewindow, sizeof(nativewindow), node::BINARY);
+    node::Buffer* buffer = node::Buffer::New((char*)nativewindow, sizeof(nativewindow));
+    return scope.Close(buffer->handle_);
 }
