@@ -8,7 +8,9 @@ extern "C" {
 #include "video.h"
 }
 
+#include "GLES2/gl2.h"
 #include "videocontext.h"
+#include "webgl/object.h"
 #include "webgl/renderer.h"
 
 class LinuxVideoContext : public IVideoContext {
@@ -51,6 +53,7 @@ Handle<Value> GetVideoContext(const Arguments& args) {
 }
 
 static void Init(Handle<Object> target) {
+    webgl::GLObject::Init(target);
     webgl::Renderer::Init(target);
     target->Set(String::NewSymbol("getContext"),
         FunctionTemplate::New(GetVideoContext)->GetFunction());
