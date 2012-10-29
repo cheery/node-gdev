@@ -21,10 +21,27 @@ namespace webgl {
 
             ////Per-Fragment Operations
             //
+            static Handle<Value> BlendColor(const Arguments& args);
+            static Handle<Value> BlendEquation(const Arguments& args);
+            static Handle<Value> BlendEquationSeparate(const Arguments& args);
+            static Handle<Value> BlendFunc(const Arguments& args);
+            static Handle<Value> BlendFuncSeparate(const Arguments& args);
+            static Handle<Value> DepthFunc(const Arguments& args);
+            static Handle<Value> SampleCoverage(const Arguments& args);
+            static Handle<Value> StencilFunc(const Arguments& args);
+            static Handle<Value> StencilFuncSeparate(const Arguments& args);
+            static Handle<Value> StencilOp(const Arguments& args);
+            static Handle<Value> StencilOpSeparate(const Arguments& args);
             ////Whole Framebuffer Operations
             //
-            static Handle<Value> ClearColor(const Arguments& args);
             static Handle<Value> Clear(const Arguments& args);
+            static Handle<Value> ClearColor(const Arguments& args);
+            static Handle<Value> ClearDepth(const Arguments& args);
+            static Handle<Value> ClearStencil(const Arguments& args);
+            static Handle<Value> ColorMask(const Arguments& args);
+            static Handle<Value> DepthMask(const Arguments& args);
+            static Handle<Value> StencilMask(const Arguments& args);
+            static Handle<Value> StencilMaskSeparate(const Arguments& args);
             ////Buffer Objects
             //
             static Handle<Value> CreateBuffer(const Arguments& args);
