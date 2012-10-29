@@ -75,32 +75,110 @@ namespace webgl {
         //
         NODE_SET_PROTOTYPE_METHOD(t, "clear", Clear);
         NODE_SET_PROTOTYPE_METHOD(t, "clearColor", ClearColor);
-        NODE_SET_PROTOTYPE_METHOD(t, "ClearDepth", ClearDepth);
-        NODE_SET_PROTOTYPE_METHOD(t, "ClearStencil", ClearStencil);
-        NODE_SET_PROTOTYPE_METHOD(t, "ColorMask", ColorMask);
-        NODE_SET_PROTOTYPE_METHOD(t, "DepthMask", DepthMask);
-        NODE_SET_PROTOTYPE_METHOD(t, "StencilMask", StencilMask);
-        NODE_SET_PROTOTYPE_METHOD(t, "StencilMaskSeparate", StencilMaskSeparate);
+        NODE_SET_PROTOTYPE_METHOD(t, "clearDepth", ClearDepth);
+        NODE_SET_PROTOTYPE_METHOD(t, "clearStencil", ClearStencil);
+        NODE_SET_PROTOTYPE_METHOD(t, "colorMask", ColorMask);
+        NODE_SET_PROTOTYPE_METHOD(t, "depthMask", DepthMask);
+        NODE_SET_PROTOTYPE_METHOD(t, "stencilMask", StencilMask);
+        NODE_SET_PROTOTYPE_METHOD(t, "stencilMaskSeparate", StencilMaskSeparate);
         SET_PROTOTYPE_CONSTANT(t, "COLOR_BUFFER_BIT", GL_COLOR_BUFFER_BIT);
         SET_PROTOTYPE_CONSTANT(t, "DEPTH_BUFFER_BIT", GL_DEPTH_BUFFER_BIT);
         SET_PROTOTYPE_CONSTANT(t, "STENCIL_BUFFER_BIT", GL_STENCIL_BUFFER_BIT);
 
         ////Buffer Objects
         //
+        NODE_SET_PROTOTYPE_METHOD(t, "bindBuffer", BindBuffer);
+        NODE_SET_PROTOTYPE_METHOD(t, "bufferData", BufferData);
+        NODE_SET_PROTOTYPE_METHOD(t, "bufferSubData", BufferSubData);
         NODE_SET_PROTOTYPE_METHOD(t, "createBuffer", CreateBuffer);
         NODE_SET_PROTOTYPE_METHOD(t, "deleteBuffer", DeleteBuffer);
+        NODE_SET_PROTOTYPE_METHOD(t, "getBufferParameter", GetBufferParameter);
+        NODE_SET_PROTOTYPE_METHOD(t, "isBuffer", IsBuffer);
+        SET_PROTOTYPE_CONSTANT(t, "ARRAY_BUFFER", GL_ARRAY_BUFFER);
+        SET_PROTOTYPE_CONSTANT(t, "ELEMENT_ARRAY_BUFFER", GL_ELEMENT_ARRAY_BUFFER);
+        SET_PROTOTYPE_CONSTANT(t, "STATIC_DRAW", GL_STATIC_DRAW);
+        SET_PROTOTYPE_CONSTANT(t, "STREAM_DRAW", GL_STREAM_DRAW);
+        SET_PROTOTYPE_CONSTANT(t, "DYNAMIC_DRAW", GL_DYNAMIC_DRAW);
+        SET_PROTOTYPE_CONSTANT(t, "BUFFER_SIZE", GL_BUFFER_SIZE);
+        SET_PROTOTYPE_CONSTANT(t, "BUFFER_USAGE", GL_BUFFER_USAGE);
         ////View and Clip
         //
-        ////Rasterization
-        //
+        NODE_SET_PROTOTYPE_METHOD(t, "depthRange", DepthRange);
+        NODE_SET_PROTOTYPE_METHOD(t, "scissor", Scissor);
+        NODE_SET_PROTOTYPE_METHOD(t, "viewport", Viewport);
+        ////Rasterization                           
+        //                                          
+        NODE_SET_PROTOTYPE_METHOD(t, "cullFace", CullFace);
+        NODE_SET_PROTOTYPE_METHOD(t, "frontFace", FrontFace);
+        NODE_SET_PROTOTYPE_METHOD(t, "lineWidth", LineWidth);
+        NODE_SET_PROTOTYPE_METHOD(t, "polygonOffset", PolygonOffset);
+        SET_PROTOTYPE_CONSTANT(t, "CCW", GL_CCW);
+        SET_PROTOTYPE_CONSTANT(t, "CW", GL_CW);
         ////Detect and Enable Extensions
         //
         ////Detect context lost events
         //
         ////Programs and Shaders
         //
+        NODE_SET_PROTOTYPE_METHOD(t, "attachShader", AttachShader);
+        NODE_SET_PROTOTYPE_METHOD(t, "bindAttribLocation", BindAttribLocation);
+        NODE_SET_PROTOTYPE_METHOD(t, "compileShader", CompileShader);
+        NODE_SET_PROTOTYPE_METHOD(t, "createProgram", CreateProgram);
+        NODE_SET_PROTOTYPE_METHOD(t, "createShader", CreateShader);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_SHADER", GL_VERTEX_SHADER);
+        SET_PROTOTYPE_CONSTANT(t, "FRAGMENT_SHADER", GL_FRAGMENT_SHADER);
+        NODE_SET_PROTOTYPE_METHOD(t, "deleteProgram", DeleteProgram);
+        NODE_SET_PROTOTYPE_METHOD(t, "deleteShader", DeleteShader);
+        NODE_SET_PROTOTYPE_METHOD(t, "detachShader", DetachShader);
+        NODE_SET_PROTOTYPE_METHOD(t, "getAttachedShaders", GetAttachedShaders);
+        NODE_SET_PROTOTYPE_METHOD(t, "getProgramParameter", GetProgramParameter);
+        SET_PROTOTYPE_CONSTANT(t, "DELETE_STATUS", GL_DELETE_STATUS);
+        SET_PROTOTYPE_CONSTANT(t, "LINK_STATUS", GL_LINK_STATUS);
+        SET_PROTOTYPE_CONSTANT(t, "VALIDATE_STATUS", GL_VALIDATE_STATUS);
+        SET_PROTOTYPE_CONSTANT(t, "ATTACHED_SHADERS", GL_ATTACHED_SHADERS);
+        SET_PROTOTYPE_CONSTANT(t, "ACTIVE_ATTRIBUTES", GL_ACTIVE_ATTRIBUTES);
+        SET_PROTOTYPE_CONSTANT(t, "ACTIVE_UNIFORMS", GL_ACTIVE_UNIFORMS);
+        NODE_SET_PROTOTYPE_METHOD(t, "getProgramInfoLog", GetProgramInfoLog);
+        NODE_SET_PROTOTYPE_METHOD(t, "getShaderParameter", GetShaderParameter);
+        SET_PROTOTYPE_CONSTANT(t, "SHADER_TYPE", GL_SHADER_TYPE);
+        SET_PROTOTYPE_CONSTANT(t, "DELETE_STATUS", GL_DELETE_STATUS);
+        SET_PROTOTYPE_CONSTANT(t, "COMPILE_STATUS", GL_COMPILE_STATUS);
+        NODE_SET_PROTOTYPE_METHOD(t, "getShaderInfoLog", GetShaderInfoLog);
+        NODE_SET_PROTOTYPE_METHOD(t, "getShaderSource", GetShaderSource);
+        NODE_SET_PROTOTYPE_METHOD(t, "isProgram", IsProgram);
+        NODE_SET_PROTOTYPE_METHOD(t, "isShader", IsShader);
+        NODE_SET_PROTOTYPE_METHOD(t, "linkProgram", LinkProgram);
+        NODE_SET_PROTOTYPE_METHOD(t, "shaderSource", ShaderSource);
+        NODE_SET_PROTOTYPE_METHOD(t, "useProgram", UseProgram);
+        NODE_SET_PROTOTYPE_METHOD(t, "validateProgram", ValidateProgram);
         ////Uniforms and Attributes
         //
+        NODE_SET_PROTOTYPE_METHOD(t, "disableVertexAttribArray", DisableVertexAttribArray);
+        NODE_SET_PROTOTYPE_METHOD(t, "enableVertexAttribArray", EnableVertexAttribArray);
+        NODE_SET_PROTOTYPE_METHOD(t, "getActiveAttrib", GetActiveAttrib);
+        NODE_SET_PROTOTYPE_METHOD(t, "getActiveUniform", GetActiveUniform);
+        NODE_SET_PROTOTYPE_METHOD(t, "getAttribLocation", GetAttribLocation);
+        NODE_SET_PROTOTYPE_METHOD(t, "getUniform", GetUniform);
+        NODE_SET_PROTOTYPE_METHOD(t, "getUniformLocation", GetUniformLocation);
+        NODE_SET_PROTOTYPE_METHOD(t, "getVertexAttrib", GetVertexAttrib);
+        NODE_SET_PROTOTYPE_METHOD(t, "getVertexAttribOffset", GetVertexAttribOffset);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform1f", Uniform1f);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform2f", Uniform2f);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform3f", Uniform3f);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform4f", Uniform4f);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform1i", Uniform1i);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform2i", Uniform2i);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform3i", Uniform3i);
+        NODE_SET_PROTOTYPE_METHOD(t, "uniform4i", Uniform4i);
+        NODE_SET_PROTOTYPE_METHOD(t, "vertexAttribPointer", VertexAttribPointer);
+        SET_PROTOTYPE_CONSTANT(t, "MAX_VERTEX_ATTRIBS", GL_MAX_VERTEX_ATTRIBS);
+        SET_PROTOTYPE_CONSTANT(t, "CURRENT_VERTEX_ATTRIB", GL_CURRENT_VERTEX_ATTRIB);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_BUFFER_BINDING", GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_ENABLED", GL_VERTEX_ATTRIB_ARRAY_ENABLED);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_SIZE", GL_VERTEX_ATTRIB_ARRAY_SIZE);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_STRIDE", GL_VERTEX_ATTRIB_ARRAY_STRIDE);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_TYPE", GL_VERTEX_ATTRIB_ARRAY_TYPE);
+        SET_PROTOTYPE_CONSTANT(t, "VERTEX_ATTRIB_ARRAY_NORMALIZED", GL_VERTEX_ATTRIB_ARRAY_NORMALIZED);
         ////Texture Objects
         //
         NODE_SET_PROTOTYPE_METHOD(t, "createTexture", CreateTexture);
@@ -290,7 +368,6 @@ namespace webgl {
     }
     ////Whole Framebuffer Operations
     //
-
     Handle<Value> Renderer::Clear(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
@@ -377,6 +454,55 @@ namespace webgl {
     }
     ////Buffer Objects
     //
+    Handle<Value> Renderer::BindBuffer(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glBindBuffer(
+            args[0]->IntegerValue(),
+            GLObject::GetId(args[1]->ToObject())
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::BufferData(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLsizeiptr size;
+        GLvoid* data = NULL;
+        if (args[1]->IsObject()) {
+            Local<Object> buffer_obj = args[1]->ToObject();
+            data = node::Buffer::Data(buffer_obj);
+            size = node::Buffer::Length(buffer_obj);
+        } else {
+            size = args[1]->IntegerValue();
+        }
+        glBufferData(
+            args[0]->IntegerValue(),
+            size,
+            data,
+            args[2]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::BufferSubData(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        Local<Object> buffer_obj = args[2]->ToObject();
+        GLvoid* data = node::Buffer::Data(buffer_obj);
+        GLsizeiptr size = node::Buffer::Length(buffer_obj);
+        glBufferSubData(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            size,
+            data
+        );
+        return scope.Close(Undefined());
+    }
+
     Handle<Value> Renderer::CreateBuffer(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
@@ -395,18 +521,470 @@ namespace webgl {
         return scope.Close(Undefined());
     }
 
+    Handle<Value> Renderer::GetBufferParameter(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLenum target = args[0]->IntegerValue();
+        GLenum pname = args[1]->IntegerValue();
+        switch (pname) {
+            case GL_BUFFER_SIZE:
+            case GL_BUFFER_USAGE:
+            {
+                GLint data;
+                glGetBufferParameteriv(target, pname, &data);
+                return scope.Close(Integer::New(data));
+            }
+        }
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::IsBuffer(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(glIsBuffer(id)));
+    }
     ////View and Clip
     //
+    Handle<Value> Renderer::DepthRange(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glDepthRangef(
+            args[0]->NumberValue(),
+            args[1]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::Scissor(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glScissor(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue(),
+            args[3]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::Viewport(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glViewport(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue(),
+            args[3]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
     ////Rasterization
     //
+    Handle<Value> Renderer::CullFace(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glCullFace(
+            args[0]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::FrontFace(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glFrontFace(
+            args[0]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::LineWidth(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glLineWidth(
+            args[0]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+
+    Handle<Value> Renderer::PolygonOffset(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glPolygonOffset(
+            args[0]->NumberValue(),
+            args[1]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
     ////Detect and Enable Extensions
     //
     ////Detect context lost events
     //
     ////Programs and Shaders
     //
+    Handle<Value> Renderer::AttachShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLuint shader_id = GLObject::GetId(args[1]->ToObject());
+        glAttachShader(id, shader_id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::BindAttribLocation(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glBindAttribLocation(
+            GLObject::GetId(args[0]->ToObject()),
+            args[1]->IntegerValue(),
+            *(String::AsciiValue)(args[2]->ToString())
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::CompileShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glCompileShader(GLObject::GetId(args[0]->ToObject()));
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::CreateProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        return scope.Close(GLObject::New(glCreateProgram()));
+    }
+    Handle<Value> Renderer::CreateShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        return scope.Close(GLObject::New(glCreateShader(
+            args[0]->IntegerValue()
+        )));
+    }
+    Handle<Value> Renderer::DeleteProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        glDeleteProgram(id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::DeleteShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        glDeleteShader(id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::DetachShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLuint shader_id = GLObject::GetId(args[1]->ToObject());
+        glDetachShader(id, shader_id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetAttachedShaders(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert (false);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetProgramParameter(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert (false);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetProgramInfoLog(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLsizei sz;
+        glGetProgramInfoLog(id, 0, &sz, NULL);
+        char log[sz];
+        glGetProgramInfoLog(id, sz, NULL, log);
+        return scope.Close(String::New(log));
+    }
+    Handle<Value> Renderer::GetShaderParameter(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert (false);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetShaderInfoLog(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLsizei sz;
+        glGetShaderInfoLog(id, 0, &sz, NULL);
+        char log[sz];
+        glGetShaderInfoLog(id, sz, NULL, log);
+        return scope.Close(String::New(log));
+    }
+    Handle<Value> Renderer::GetShaderSource(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLsizei sz;
+        glGetShaderSource(id, 0, &sz, NULL);
+        char log[sz];
+        glGetShaderSource(id, sz, NULL, log);
+        return scope.Close(String::New(log));
+    }
+    Handle<Value> Renderer::IsProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(
+            glIsProgram(id)
+        ));
+    }
+    Handle<Value> Renderer::IsShader(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(
+            glIsShader(id)
+        ));
+    }
+    Handle<Value> Renderer::LinkProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        glLinkProgram(id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::ShaderSource(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        String::AsciiValue ascii(args[1]->ToString());
+        const GLint len = ascii.length();
+        const GLchar* src = *ascii;
+        glShaderSource(id, 1, &src, &len);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::UseProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        glUseProgram(id);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::ValidateProgram(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        glValidateProgram(id);
+        return scope.Close(Undefined());
+    }
     ////Uniforms and Attributes
     //
+    Handle<Value> Renderer::DisableVertexAttribArray(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glDisableVertexAttribArray(args[0]->IntegerValue());
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::EnableVertexAttribArray(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glEnableVertexAttribArray(args[0]->IntegerValue());
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetActiveAttrib(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert(false); // I'm not sure how to implement this yet.
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetActiveUniform(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert(false); // I'm not sure how to implement this yet.
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetAttribLocation(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        String::AsciiValue ascii(args[1]->ToString());
+        GLuint loc = glGetAttribLocation(id, *ascii);
+        return scope.Close(Integer::New(loc));
+    }
+    Handle<Value> Renderer::GetUniform(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert(false); // I'm not sure how to implement this yet.
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetUniformLocation(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        String::AsciiValue ascii(args[1]->ToString());
+        GLuint loc = glGetUniformLocation(id, *ascii);
+        return scope.Close(Integer::New(loc));
+    }
+    Handle<Value> Renderer::GetVertexAttrib(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        assert(0);
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::GetVertexAttribOffset(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        void* offset;
+        glGetVertexAttribPointerv(
+            args[0]->Uint32Value(),
+            args[1]->IntegerValue(),
+            &offset
+        );
+        return scope.Close(Integer::New((long)offset));
+    }
+    Handle<Value> Renderer::Uniform1f(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform1f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform2f(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform2f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform3f(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform3f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue(),
+            args[3]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform4f(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform4f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue(),
+            args[3]->NumberValue(),
+            args[4]->NumberValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform1i(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform1i(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform2i(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform2i(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform3i(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform3i(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue(),
+            args[3]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::Uniform4i(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glUniform4i(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue(),
+            args[3]->IntegerValue(),
+            args[4]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
+    Handle<Value> Renderer::VertexAttribPointer(const Arguments& args) {
+        HandleScope scope;
+        Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
+        obj->MakeCurrentLazy();
+        glVertexAttribPointer(
+            args[0]->Uint32Value(),
+            args[1]->Int32Value(),
+            args[2]->IntegerValue(),
+            args[3]->BooleanValue(),
+            args[4]->IntegerValue(),
+            (GLvoid*)args[5]->IntegerValue()
+        );
+        return scope.Close(Undefined());
+    }
     ////Texture Objects
     //
     Handle<Value> Renderer::CreateTexture(const Arguments& args) {

@@ -44,20 +44,71 @@ namespace webgl {
             static Handle<Value> StencilMaskSeparate(const Arguments& args);
             ////Buffer Objects
             //
+            static Handle<Value> BindBuffer(const Arguments& args);
+            static Handle<Value> BufferData(const Arguments& args); // 2
+            static Handle<Value> BufferSubData(const Arguments& args);
             static Handle<Value> CreateBuffer(const Arguments& args);
             static Handle<Value> DeleteBuffer(const Arguments& args);
+            static Handle<Value> GetBufferParameter(const Arguments& args);
+            static Handle<Value> IsBuffer(const Arguments& args);
             ////View and Clip
             //
+            static Handle<Value> DepthRange(const Arguments& args);
+            static Handle<Value> Scissor(const Arguments& args);
+            static Handle<Value> Viewport(const Arguments& args);
             ////Rasterization
             //
+            static Handle<Value> CullFace(const Arguments& args);
+            static Handle<Value> FrontFace(const Arguments& args);
+            static Handle<Value> LineWidth(const Arguments& args);
+            static Handle<Value> PolygonOffset(const Arguments& args);
             ////Detect and Enable Extensions
             //
             ////Detect context lost events
             //
             ////Programs and Shaders
             //
+            static Handle<Value> AttachShader(const Arguments& args);
+            static Handle<Value> BindAttribLocation(const Arguments& args);
+            static Handle<Value> CompileShader(const Arguments& args);
+            static Handle<Value> CreateProgram(const Arguments& args);
+            static Handle<Value> CreateShader(const Arguments& args);
+            static Handle<Value> DeleteProgram(const Arguments& args);
+            static Handle<Value> DeleteShader(const Arguments& args);
+            static Handle<Value> DetachShader(const Arguments& args);
+            static Handle<Value> GetAttachedShaders(const Arguments& args);
+            static Handle<Value> GetProgramParameter(const Arguments& args);
+            static Handle<Value> GetProgramInfoLog(const Arguments& args);
+            static Handle<Value> GetShaderParameter(const Arguments& args);
+            static Handle<Value> GetShaderInfoLog(const Arguments& args);
+            static Handle<Value> GetShaderSource(const Arguments& args);
+            static Handle<Value> IsProgram(const Arguments& args);
+            static Handle<Value> IsShader(const Arguments& args);
+            static Handle<Value> LinkProgram(const Arguments& args);
+            static Handle<Value> ShaderSource(const Arguments& args);
+            static Handle<Value> UseProgram(const Arguments& args);
+            static Handle<Value> ValidateProgram(const Arguments& args);
             ////Uniforms and Attributes
             //
+            static Handle<Value> DisableVertexAttribArray(const Arguments& args);
+            static Handle<Value> EnableVertexAttribArray(const Arguments& args);
+            static Handle<Value> GetActiveAttrib(const Arguments& args);
+            static Handle<Value> GetActiveUniform(const Arguments& args);
+            static Handle<Value> GetAttribLocation(const Arguments& args);
+            static Handle<Value> GetUniform(const Arguments& args);
+            static Handle<Value> GetUniformLocation(const Arguments& args);
+            static Handle<Value> GetVertexAttrib(const Arguments& args);
+            static Handle<Value> GetVertexAttribOffset(const Arguments& args);
+            static Handle<Value> Uniform1f(const Arguments& args);
+            static Handle<Value> Uniform2f(const Arguments& args);
+            static Handle<Value> Uniform3f(const Arguments& args);
+            static Handle<Value> Uniform4f(const Arguments& args);
+            static Handle<Value> Uniform1i(const Arguments& args);
+            static Handle<Value> Uniform2i(const Arguments& args);
+            static Handle<Value> Uniform3i(const Arguments& args);
+            static Handle<Value> Uniform4i(const Arguments& args);
+            // this is missing some, because I'm not sure about buffers.
+            static Handle<Value> VertexAttribPointer(const Arguments& args);
             ////Texture Objects
             //
             static Handle<Value> CreateTexture(const Arguments& args);
