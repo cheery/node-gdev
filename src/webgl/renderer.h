@@ -127,5 +127,9 @@ namespace webgl {
             //
             ////Framebuffer Objects
             //
+
+            static inline void CatchError();
+
+            static size_t Sizeof(Local<Object> object);
     };
 }

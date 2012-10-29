@@ -1,6 +1,5 @@
 #include <v8.h>
 #include <node.h>
-#include <node_buffer.h>
 
 #include "GLES2/gl2.h"
 #include "../videocontext.h"
@@ -374,6 +373,7 @@ namespace webgl {
         obj->MakeCurrentLazy();
         uint32_t flags = args[0]->IntegerValue();
         glClear(flags);
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -386,6 +386,7 @@ namespace webgl {
         double b = args[2]->NumberValue();
         double a = args[3]->NumberValue();
         glClearColor(r,g,b,a);
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -458,10 +459,12 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        glBindBuffer(
-            args[0]->IntegerValue(),
-            GLObject::GetId(args[1]->ToObject())
-        );
+        GLuint id = 0;
+        if (!args[1]->IsUndefined() && !args[1]->IsNull()) {
+            id = GLObject::GetId(args[1]->ToObject());
+        }
+        glBindBuffer(args[0]->IntegerValue(), id);
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -471,19 +474,15 @@ namespace webgl {
         obj->MakeCurrentLazy();
         GLsizeiptr size;
         GLvoid* data = NULL;
-        if (args[1]->IsObject()) {
-            Local<Object> buffer_obj = args[1]->ToObject();
-            data = node::Buffer::Data(buffer_obj);
-            size = node::Buffer::Length(buffer_obj);
-        } else {
+        if (args[1]->IsInt32()) {
             size = args[1]->IntegerValue();
+        } else {
+            Local<Object> buffer_obj = args[1]->ToObject();
+            data = buffer_obj->GetIndexedPropertiesExternalArrayData();
+            size = buffer_obj->GetIndexedPropertiesExternalArrayDataLength() * Sizeof(buffer_obj);
         }
-        glBufferData(
-            args[0]->IntegerValue(),
-            size,
-            data,
-            args[2]->IntegerValue()
-        );
+        glBufferData(args[0]->IntegerValue(), size, data, args[2]->IntegerValue());
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -492,13 +491,11 @@ namespace webgl {
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
         Local<Object> buffer_obj = args[2]->ToObject();
-        GLvoid* data = node::Buffer::Data(buffer_obj);
-        GLsizeiptr size = node::Buffer::Length(buffer_obj);
         glBufferSubData(
             args[0]->IntegerValue(),
             args[1]->IntegerValue(),
-            size,
-            data
+            buffer_obj->GetIndexedPropertiesExternalArrayDataLength() * Sizeof(buffer_obj),
+            buffer_obj->GetIndexedPropertiesExternalArrayData()
         );
         return scope.Close(Undefined());
     }
@@ -509,6 +506,7 @@ namespace webgl {
         obj->MakeCurrentLazy();
         GLuint id;
         glGenBuffers(1, &id);
+        CatchError();
         return scope.Close(GLObject::New(id));
     }
 
@@ -677,7 +675,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        GLuint id = GLObject::GetId(args[0]->ToObject());
         glDeleteProgram(id);
         return scope.Close(Undefined());
     }
@@ -685,7 +683,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        GLuint id = GLObject::GetId(args[0]->ToObject());
         glDeleteShader(id);
         return scope.Close(Undefined());
     }
@@ -702,15 +700,17 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert (false);
+        assert (false); // unimplemented, fairly odd thing to query.
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::GetProgramParameter(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert (false);
-        return scope.Close(Undefined());
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLint res;
+        glGetProgramiv(id, args[1]->IntegerValue(), &res);
+        return scope.Close(Integer::New(res));
     }
     Handle<Value> Renderer::GetProgramInfoLog(const Arguments& args) {
         HandleScope scope;
@@ -718,7 +718,7 @@ namespace webgl {
         obj->MakeCurrentLazy();
         GLuint id = GLObject::GetId(args[0]->ToObject());
         GLsizei sz;
-        glGetProgramInfoLog(id, 0, &sz, NULL);
+        glGetProgramiv(id, GL_INFO_LOG_LENGTH, &sz);
         char log[sz];
         glGetProgramInfoLog(id, sz, NULL, log);
         return scope.Close(String::New(log));
@@ -727,8 +727,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert (false);
-        return scope.Close(Undefined());
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        GLint res;
+        glGetShaderiv(id, args[1]->IntegerValue(), &res);
+        return scope.Close(Integer::New(res));
     }
     Handle<Value> Renderer::GetShaderInfoLog(const Arguments& args) {
         HandleScope scope;
@@ -736,9 +738,10 @@ namespace webgl {
         obj->MakeCurrentLazy();
         GLuint id = GLObject::GetId(args[0]->ToObject());
         GLsizei sz;
-        glGetShaderInfoLog(id, 0, &sz, NULL);
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &sz);
         char log[sz];
         glGetShaderInfoLog(id, sz, NULL, log);
+        printf("GetShaderInfoLog().4\n");
         return scope.Close(String::New(log));
     }
     Handle<Value> Renderer::GetShaderSource(const Arguments& args) {
@@ -747,7 +750,7 @@ namespace webgl {
         obj->MakeCurrentLazy();
         GLuint id = GLObject::GetId(args[0]->ToObject());
         GLsizei sz;
-        glGetShaderSource(id, 0, &sz, NULL);
+        glGetShaderiv(id, GL_SHADER_SOURCE_LENGTH, &sz);
         char log[sz];
         glGetShaderSource(id, sz, NULL, log);
         return scope.Close(String::New(log));
@@ -793,15 +796,16 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        GLuint id = GLObject::GetId(args[0]->ToObject());
         glUseProgram(id);
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::ValidateProgram(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        GLuint id = GLObject::GetId(args[0]->ToObject()),
+        GLuint id = GLObject::GetId(args[0]->ToObject());
         glValidateProgram(id);
         return scope.Close(Undefined());
     }
@@ -975,14 +979,14 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        glVertexAttribPointer(
-            args[0]->Uint32Value(),
-            args[1]->Int32Value(),
-            args[2]->IntegerValue(),
-            args[3]->BooleanValue(),
-            args[4]->IntegerValue(),
-            (GLvoid*)args[5]->IntegerValue()
-        );
+        GLuint    indx       = args[0]->IntegerValue();
+        GLint     size       = args[1]->IntegerValue();
+        GLenum    type       = args[2]->IntegerValue();
+        GLboolean normalized = (args[3]->BooleanValue())?GL_TRUE:GL_FALSE;
+        GLsizei   stride     = args[4]->IntegerValue();
+        GLvoid*   offset     = (GLvoid*)args[5]->IntegerValue();
+        glVertexAttribPointer(indx, size, type, normalized, stride, offset);
+        CatchError();
         return scope.Close(Undefined());
     }
     ////Texture Objects
@@ -1036,6 +1040,7 @@ namespace webgl {
             args[1]->IntegerValue(),
             args[2]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1049,6 +1054,7 @@ namespace webgl {
             args[2]->IntegerValue(),
             (void*)args[3]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     ////Read Back Pixels
@@ -1064,4 +1070,48 @@ namespace webgl {
         return scope.Close(Undefined());
     }
     */
+
+    static void ThrowError(GLenum error) {
+        const char* name = NULL;
+        switch (error) {
+            case GL_INVALID_ENUM: name = "INVALID_ENUM"; break;
+            case GL_INVALID_VALUE: name = "INVALID_VALUE"; break;
+            case GL_INVALID_OPERATION: name = "INVALID_OPERATION"; break;
+            case GL_INVALID_FRAMEBUFFER_OPERATION: name = "INVALID_FRAMEBUFFER_OPERATION"; break;
+            case GL_OUT_OF_MEMORY: name = "OUT_OF_MEMORY"; break;
+        }
+        if (name) {
+            ThrowException(String::New(name));
+        } else {
+            ThrowException(Integer::New(error));
+        }
+    }
+
+    inline void Renderer::CatchError() {
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            ThrowError(error);
+        }
+    }
+
+    size_t Renderer::Sizeof(Local<Object> object) {
+        ExternalArrayType type = object->GetIndexedPropertiesExternalArrayDataType();
+        switch (type) {
+            case kExternalByteArray:
+            case kExternalUnsignedByteArray:
+                return 1;
+            case kExternalShortArray:
+            case kExternalUnsignedShortArray:
+                return 2;
+            case kExternalIntArray:
+            case kExternalUnsignedIntArray:
+            case kExternalFloatArray:
+                return 4;
+            case kExternalDoubleArray:
+                return 8;
+            case kExternalPixelArray:
+                ThrowException(Exception::TypeError(String::New("Sizeof(PixelArray) unimplemented")));
+        }
+        ThrowException(Exception::TypeError(String::New("unknown ExternalArrayType")));
+    }
 }
