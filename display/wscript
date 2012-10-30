@@ -14,7 +14,7 @@ def build(bld):
         "-I/home/pi/node-video/rpi/include/",
     ]
     obj.linkflags = [
-        "-ldisplay",
+        "/home/pi/node-video/rpi/libdisplay.so",
     ]
     obj.target = "display"
     obj.source = "src/init.cc"

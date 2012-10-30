@@ -6,10 +6,19 @@ Beta version will support at least raspberry pi. We will implement C-API portabi
 
 ## try it out
 
-    node-waf configure build
-    ./node-video demo.js
+Verify you are in debian wheezy on your raspberry pi and do exactly these steps. I haven't written proper build files yet.
 
-It shuffles random colors through the screen. The webgl API is still a stub, but features glClear and glClearColor already.
+    cd /home/pi
+    git clone git@github.com:cheery/node-video.git
+    cd node-video/rpi/
+    sh build-api.sh
+    cd ../display
+    node-waf configure build
+    cd ..
+    node-waf configure build
+    ./node-video tutorial/tutorial-1.js
+
+Tutorial-1 draws a triangle to the screen. You can also try demo.js, which just flips colors. The webgl API is still a stub, but features glClear and glClearColor already.
 
 ## future
 

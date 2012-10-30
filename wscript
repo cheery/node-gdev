@@ -46,7 +46,7 @@ def build(bld):
 #        "-lbcm_host",
 #        "-lvcos",
 #        "-lvchiq_arm",
-        "-lvideo",
+        "/home/pi/node-video/rpi/libvideo.so",
     ]
     obj.target = "video"
     obj.source = "src/init.cc src/webgl/renderer.cc src/webgl/object.cc"
