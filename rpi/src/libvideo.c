@@ -10,7 +10,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /* this one is a slight wrapper over EGL, which provides most of the features. */
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
+#include "EGL/eglext_brcm.h"
 #include "GLES2/gl2.h"
+#include "GLES2/gl2ext.h"
 /*  */
 #include <assert.h>
 
@@ -50,8 +52,24 @@ struct surface {
     EGLSurface surface;
     EGLContext context;
     int type;
-    int current;
     EGL_DISPMANX_WINDOW_T window; // this will be union
+};
+
+// does "webgl" only, no specials.
+static const EGLint attribute_list[] =
+{
+    EGL_RED_SIZE, 8,
+    EGL_GREEN_SIZE, 8,
+    EGL_BLUE_SIZE, 8,
+    EGL_ALPHA_SIZE, 8,
+    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+    EGL_NONE
+};
+
+static const EGLint context_attributes[] = 
+{
+    EGL_CONTEXT_CLIENT_VERSION, 2,
+    EGL_NONE
 };
 
 SURFACE_T videoCreateNative(uint32_t* nativewindow) {
@@ -62,23 +80,6 @@ SURFACE_T videoCreateNative(uint32_t* nativewindow) {
     window->element = nativewindow[0];
     window->width   = nativewindow[1];
     window->height  = nativewindow[2];
-
-    // does "webgl" only, no specials.
-    static const EGLint attribute_list[] =
-    {
-        EGL_RED_SIZE, 8,
-        EGL_GREEN_SIZE, 8,
-        EGL_BLUE_SIZE, 8,
-        EGL_ALPHA_SIZE, 8,
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-        EGL_NONE
-    };
-
-    static const EGLint context_attributes[] = 
-    {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
 
     EGLConfig config;
     EGLint num_config;
@@ -97,14 +98,12 @@ SURFACE_T videoCreateNative(uint32_t* nativewindow) {
     CHECK();
     assert(p->surface != EGL_NO_SURFACE);
 
-    p->current = 0;
     p->type = 1;
 
     return p;
 }
 
 void videoDestroySurface(SURFACE_T surface) {
-    if (surface->current) videoMakeCurrent(NULL);
     eglDestroySurface( display, surface->surface );
     eglDestroyContext( display, surface->context );
     free(surface);
@@ -116,7 +115,6 @@ void videoMakeCurrent(SURFACE_T p) {
         result = eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
     } else {
         result = eglMakeCurrent(display, p->surface, p->surface, p->context);
-        p->current = 1;
     }
     CHECK();
     assert(EGL_FALSE != result);
@@ -134,13 +132,27 @@ void videoSwapBuffers(SURFACE_T p) {
 }
 
 // this method is retarded.
-/*
 SURFACE_T videoCreateComposite(uint32_t width, uint32_t height, int* global_image) {
+    EGLBoolean result;
+    SURFACE_T p = malloc(sizeof(*p));
+    EGLConfig config;
+    EGLint num_config;
+    result = eglChooseConfig(display, attribute_list, &config, 1, &num_config);
+    CHECK();
+    assert(EGL_FALSE != result);
+    result = eglBindAPI(EGL_OPENGL_ES_API);
+    CHECK();
+    assert(EGL_FALSE != result);
+
+    p->context = eglCreateContext(display, config, EGL_NO_CONTEXT, context_attributes);
+    CHECK();
+    assert(p->context!=EGL_NO_CONTEXT);
+
     EGLint pixel_format = EGL_PIXEL_FORMAT_ARGB_8888_BRCM;
     EGLint rt;
     eglGetConfigAttrib(
-        display->display,
-        display->config,
+        display,
+        config,
         EGL_RENDERABLE_TYPE,
         &rt
     );
@@ -160,7 +172,6 @@ SURFACE_T videoCreateComposite(uint32_t width, uint32_t height, int* global_imag
     if (rt & EGL_OPENGL_BIT) {
         pixel_format |= EGL_PIXEL_FORMAT_RENDER_GL_BRCM;
     }
-    int* global_image = handle;
     global_image[0] = 0;
     global_image[1] = 0;
     global_image[2] = width;
@@ -182,21 +193,21 @@ SURFACE_T videoCreateComposite(uint32_t width, uint32_t height, int* global_imag
         EGL_NONE
     };
 
-    EGLSurface surface = eglCreatePixmapSurface(
-        display->display,
-        display->config,
+    p->surface = eglCreatePixmapSurface(
+        display,
+        config,
         (EGLNativePixmapType)global_image,
         attrs
     );
-    assert(surface != EGL_NO_SURFACE);
+    assert(p->surface != EGL_NO_SURFACE);
+    return p;
 }
 
-void videoCompositeTexture2D(GLEnum target, int* global_image) {
-    int* global_image = handle;
+void videoCompositeTexture2D(GLenum target, int* global_image) {
     assert (eglQueryGlobalImageBRCM(global_image, global_image+2));
 
     EGLImageKHR image = (EGLImageKHR)eglCreateImageKHR(
-        display->display,
+        display,
         EGL_NO_CONTEXT,
         EGL_NATIVE_PIXMAP_KHR,
         (EGLClientBuffer)global_image,
@@ -204,19 +215,9 @@ void videoCompositeTexture2D(GLEnum target, int* global_image) {
     );
     assert(image != EGL_NO_IMAGE_KHR);
 
-    GlobalImage g = malloc(sizeof(*g));
-    g->display = display;
-    g->image = image;
-    g->width = global_image[2];
-    g->height = global_image[3];
-    return g;
+    // assign global image handle to texture.
+    glEGLImageTargetTexture2DOES(target, image);
 
-    //// destroy global image handle, can be done after assigned to texture.
-    //
-    eglDestroyImageKHR(image->display->display, image->image);
-
-    //// assign global image handle to texture.
-    //
-    glEGLImageTargetTexture2DOES(target, image->image);
+    // destroy global image handle, can be done after assigned to texture.
+    eglDestroyImageKHR(display, image);
 }
-*/

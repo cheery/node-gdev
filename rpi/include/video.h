@@ -15,3 +15,5 @@ void videoDestroySurface(SURFACE_T surface);
 void videoMakeCurrent(SURFACE_T surface);
 void videoSwapBuffers(SURFACE_T surface);
 int videoIsCurrent(SURFACE_T surface);
+SURFACE_T videoCreateComposite(uint32_t width, uint32_t height, int* global_image);
+void videoCompositeTexture2D(GLenum target, int* global_image);
