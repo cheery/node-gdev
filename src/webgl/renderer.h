@@ -107,26 +107,81 @@ namespace webgl {
             static Handle<Value> Uniform2i(const Arguments& args);
             static Handle<Value> Uniform3i(const Arguments& args);
             static Handle<Value> Uniform4i(const Arguments& args);
+
+            static Handle<Value> Uniform1fv(const Arguments& args);
+            static Handle<Value> Uniform2fv(const Arguments& args);
+            static Handle<Value> Uniform3fv(const Arguments& args);
+            static Handle<Value> Uniform4fv(const Arguments& args);
+            static Handle<Value> Uniform1iv(const Arguments& args);
+            static Handle<Value> Uniform2iv(const Arguments& args);
+            static Handle<Value> Uniform3iv(const Arguments& args);
+            static Handle<Value> Uniform4iv(const Arguments& args);
+
+            static Handle<Value> UniformMatrix2fv(const Arguments& args);
+            static Handle<Value> UniformMatrix3fv(const Arguments& args);
+            static Handle<Value> UniformMatrix4fv(const Arguments& args);
+            static Handle<Value> VertexAttrib1f(const Arguments& args);
+            static Handle<Value> VertexAttrib2f(const Arguments& args);
+            static Handle<Value> VertexAttrib3f(const Arguments& args);
+            static Handle<Value> VertexAttrib4f(const Arguments& args);
+            static Handle<Value> VertexAttrib1fv(const Arguments& args);
+            static Handle<Value> VertexAttrib2fv(const Arguments& args);
+            static Handle<Value> VertexAttrib3fv(const Arguments& args);
+            static Handle<Value> VertexAttrib4fv(const Arguments& args);
+
             // this is missing some, because I'm not sure about buffers.
             static Handle<Value> VertexAttribPointer(const Arguments& args);
             ////Texture Objects
             //
+            static Handle<Value> ActiveTexture(const Arguments& args);
+            static Handle<Value> BindTexture(const Arguments& args);
+            static Handle<Value> CopyTexImage2D(const Arguments& args);
+            static Handle<Value> CopyTexSubImage2D(const Arguments& args);
             static Handle<Value> CreateTexture(const Arguments& args);
             static Handle<Value> DeleteTexture(const Arguments& args);
+            static Handle<Value> GenerateMipmap(const Arguments& args);
+            static Handle<Value> GetTexParameter(const Arguments& args);
+            static Handle<Value> IsTexture(const Arguments& args);
+            static Handle<Value> TexImage2D(const Arguments& args);
+            static Handle<Value> TexParameterf(const Arguments& args);
+            static Handle<Value> TexParameteri(const Arguments& args);
+            static Handle<Value> TexSubImage2D(const Arguments& args);
             ////Special Functions
             //
+            static Handle<Value> Disable(const Arguments& args);
+            static Handle<Value> Enable(const Arguments& args);
+            static Handle<Value> Finish(const Arguments& args);
+            static Handle<Value> Flush(const Arguments& args);
+            static Handle<Value> GetError(const Arguments& args);
+            static Handle<Value> GetParameter(const Arguments& args);
+            static Handle<Value> Hint(const Arguments& args);
+            static Handle<Value> IsEnabled(const Arguments& args);
+            static Handle<Value> PixelStorei(const Arguments& args);
             ////Renderbuffer Objects
             //
+            static Handle<Value> BindRenderbuffer(const Arguments& args);
             static Handle<Value> CreateRenderbuffer(const Arguments& args);
             static Handle<Value> DeleteRenderbuffer(const Arguments& args);
+            static Handle<Value> GetRenderbufferParameter(const Arguments& args);
+            static Handle<Value> IsRenderbuffer(const Arguments& args);
+            static Handle<Value> RenderbufferStorage(const Arguments& args);
             ////Writing to the Draw Buffer
             //
             static Handle<Value> DrawArrays(const Arguments& args);
             static Handle<Value> DrawElements(const Arguments& args);
             ////Read Back Pixels
             //
+            static Handle<Value> ReadPixels(const Arguments& args);
             ////Framebuffer Objects
             //
+            static Handle<Value> BindFramebuffer(const Arguments& args);
+            static Handle<Value> CheckFramebufferStatus(const Arguments& args);
+            static Handle<Value> CreateFramebuffer(const Arguments& args);
+            static Handle<Value> DeleteFramebuffer(const Arguments& args);
+            static Handle<Value> FramebufferRenderbuffer(const Arguments& args);
+            static Handle<Value> IsFramebuffer(const Arguments& args);
+            static Handle<Value> FramebufferTexture2D(const Arguments& args);
+            static Handle<Value> GetFramebufferAttachmentParameter(const Arguments& args);
 
             static inline void CatchError();
 
