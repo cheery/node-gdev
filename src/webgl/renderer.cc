@@ -1,3 +1,12 @@
+/*
+Copyright (c) 2012 Cheery <cheery@boxbase.org>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <v8.h>
 #include <node.h>
 
@@ -14,7 +23,7 @@
     (obj->GetIndexedPropertiesExternalArrayData())
 
 #define ArraySize(obj) \
-    (obj->GetIndexedPropertiesExternalArrayDataLength() * Sizeof(buffer_obj))
+    (obj->GetIndexedPropertiesExternalArrayDataLength() * Sizeof(obj))
 
 namespace webgl {
 
@@ -1034,18 +1043,14 @@ namespace webgl {
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
         GLuint id = GLObject::GetId(args[0]->ToObject());
-        return scope.Close(Boolean::New(
-            glIsProgram(id)
-        ));
+        return scope.Close(Boolean::New(glIsProgram(id)));
     }
     Handle<Value> Renderer::IsShader(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
         GLuint id = GLObject::GetId(args[0]->ToObject());
-        return scope.Close(Boolean::New(
-            glIsShader(id)
-        ));
+        return scope.Close(Boolean::New(glIsShader(id)));
     }
     Handle<Value> Renderer::LinkProgram(const Arguments& args) {
         HandleScope scope;
@@ -1254,7 +1259,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 1 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform1fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1262,7 +1269,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 2 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform2fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1270,7 +1279,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 3 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform3fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1278,7 +1289,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 4 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform4fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1286,7 +1299,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 1 * sizeof(GLint);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform1iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1294,7 +1309,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 2 * sizeof(GLint);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform2iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1302,7 +1319,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 3 * sizeof(GLint);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform3iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1310,7 +1329,9 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 4 * sizeof(GLint);
+        Local<Object> buffer_obj = args[1]->ToObject();
+        glUniform4iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1318,7 +1339,13 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 2 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glUniformMatrix2fv(
+            args[0]->IntegerValue(),
+            ArraySize(buffer_obj) / (n*n),
+            args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1326,7 +1353,13 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 3 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glUniformMatrix3fv(
+            args[0]->IntegerValue(),
+            ArraySize(buffer_obj) / (n*n),
+            args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1334,7 +1367,13 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        const int n = 4 * sizeof(GLfloat);
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glUniformMatrix4fv(
+            args[0]->IntegerValue(),
+            ArraySize(buffer_obj) / (n*n),
+            args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1342,7 +1381,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        glVertexAttrib1f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1350,7 +1392,11 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        glVertexAttrib2f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1358,7 +1404,12 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        glVertexAttrib3f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue(),
+            args[3]->NumberValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1366,7 +1417,13 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        glVertexAttrib4f(
+            args[0]->IntegerValue(),
+            args[1]->NumberValue(),
+            args[2]->NumberValue(),
+            args[3]->NumberValue(),
+            args[4]->NumberValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1374,7 +1431,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glVertexAttrib1fv(
+            args[0]->IntegerValue(),
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1382,7 +1442,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glVertexAttrib2fv(
+            args[0]->IntegerValue(),
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1390,7 +1453,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glVertexAttrib3fv(
+            args[0]->IntegerValue(),
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1398,7 +1464,10 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false); // implement
+        Local<Object> buffer_obj = args[2]->ToObject();
+        glVertexAttrib4fv(
+            args[0]->IntegerValue(),
+            (GLfloat*)ArrayData(buffer_obj));
         return scope.Close(Undefined());
     }
 
@@ -1422,9 +1491,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glActiveTexture(
-        );*/
+        glActiveTexture(args[0]->IntegerValue());
         return scope.Close(Undefined());
     }
 
@@ -1432,9 +1499,8 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glBindTexture(
-        );*/
+        GLuint id = GLObject::GetId(args[1]->ToObject());
+        glBindTexture(args[0]->IntegerValue(), id);
         return scope.Close(Undefined());
     }
 
@@ -1480,9 +1546,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glGenerateMipmap(
-        );*/
+        glGenerateMipmap(args[0]->IntegerValue());
         return scope.Close(Undefined());
     }
 
@@ -1501,18 +1565,27 @@ namespace webgl {
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
         assert(false);
-        /*glIsTexture(
-        );*/
-        return scope.Close(Undefined());
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(glIsTexture(id)));
     }
 
     Handle<Value> Renderer::TexImage2D(const Arguments& args) {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glTexImage2D(
-        );*/
+        Local<Object> buffer_obj = args[8]->ToObject();
+        glTexImage2D(
+            args[0]->IntegerValue(), /* target */
+            args[1]->IntegerValue(), /* level */
+            args[2]->IntegerValue(), /* internalformat */
+            args[3]->IntegerValue(), /* width */
+            args[4]->IntegerValue(), /* height */
+            args[5]->IntegerValue(), /* border */
+            args[6]->IntegerValue(), /* format */
+            args[7]->IntegerValue(), /* type */
+            ArrayData(buffer_obj) /* pixels */
+        );
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1520,9 +1593,11 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glTexParameterf(
-        );*/
+        glTexParameterf(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->NumberValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1530,9 +1605,11 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glTexParameteri(
-        );*/
+        glTexParameteri(
+            args[0]->IntegerValue(),
+            args[1]->IntegerValue(),
+            args[2]->IntegerValue()
+        );
         return scope.Close(Undefined());
     }
 
@@ -1540,9 +1617,19 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glTexSubImage2D(
-        );*/
+        Local<Object> buffer_obj = args[8]->ToObject();
+        glTexSubImage2D(
+            args[0]->IntegerValue(), /* target */
+            args[1]->IntegerValue(), /* level */
+            args[2]->IntegerValue(), /* xoffset */
+            args[3]->IntegerValue(), /* yoffset */
+            args[4]->IntegerValue(), /* width */
+            args[5]->IntegerValue(), /* height */
+            args[6]->IntegerValue(), /* format */
+            args[7]->IntegerValue(), /* type */
+            ArrayData(buffer_obj) /* pixels */
+        );
+        CatchError();
         return scope.Close(Undefined());
     }
     ////Special Functions
@@ -1551,9 +1638,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glDisable(
-        );*/
+        glDisable(args[0]->IntegerValue());
         return scope.Close(Undefined());
     }
 
@@ -1561,9 +1646,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glEnable(
-        );*/
+        glEnable(args[0]->IntegerValue());
         return scope.Close(Undefined());
     }
 
@@ -1571,9 +1654,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glFinish(
-        );*/
+        glFinish();
         return scope.Close(Undefined());
     }
 
@@ -1581,9 +1662,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glFlush(
-        );*/
+        glFlush();
         return scope.Close(Undefined());
     }
 
@@ -1591,10 +1670,8 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glGetError(
-        );*/
-        return scope.Close(Undefined());
+        GLint e = glGetError();
+        return scope.Close(Integer::New(e));
     }
 
     Handle<Value> Renderer::GetParameter(const Arguments& args) {
@@ -1621,10 +1698,7 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glIsEnabled(
-        );*/
-        return scope.Close(Undefined());
+        return scope.Close(Boolean::New(glIsEnabled(args[0]->IntegerValue())));
     }
 
     Handle<Value> Renderer::PixelStorei(const Arguments& args) {
@@ -1681,10 +1755,8 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glIsRenderbuffer(
-        );*/
-        return scope.Close(Undefined());
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(glIsRenderbuffer(id)));
     }
 
     Handle<Value> Renderer::RenderbufferStorage(const Arguments& args) {
@@ -1791,10 +1863,8 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        assert(false);
-        /*glIsFramebuffer(
-        );*/
-        return scope.Close(Undefined());
+        GLuint id = GLObject::GetId(args[0]->ToObject());
+        return scope.Close(Boolean::New(glIsFramebuffer(id)));
     }
 
     Handle<Value> Renderer::FramebufferTexture2D(const Arguments& args) {
