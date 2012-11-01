@@ -2,7 +2,7 @@ var display = require('../display/build/Release/display');
 var video = require('../build/Release/video');
 var fs = require("fs");
 var primary = display.open(0);
-var gl = video.getContext(primary.handle);
+var gl = video.getContext(primary);
 console.log("retrieved a context, lets initialize");
 
 var shader = {
@@ -75,6 +75,6 @@ gl.drawArrays(gl.TRIANGLES, 0, 3);
 console.log("show results");
 gl.swapBuffers();
 
-console.log("sleep 2 seconds");
-setTimeout(function(){
+console.log("wait");
+setInterval(function(){
 }, 2000);

@@ -9,6 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 #include <v8.h>
 #include <node.h>
+#include <node_buffer.h>
 
 #include "GLES2/gl2.h"
 #include "../videocontext.h"
@@ -1573,18 +1574,29 @@ namespace webgl {
         HandleScope scope;
         Renderer* obj = ObjectWrap::Unwrap<Renderer>(args.This());
         obj->MakeCurrentLazy();
-        Local<Object> buffer_obj = args[8]->ToObject();
-        glTexImage2D(
-            args[0]->IntegerValue(), /* target */
-            args[1]->IntegerValue(), /* level */
-            args[2]->IntegerValue(), /* internalformat */
-            args[3]->IntegerValue(), /* width */
-            args[4]->IntegerValue(), /* height */
-            args[5]->IntegerValue(), /* border */
-            args[6]->IntegerValue(), /* format */
-            args[7]->IntegerValue(), /* type */
-            ArrayData(buffer_obj) /* pixels */
-        );
+        if (args.Length() == 2) {
+            Local<Object> buffer_obj = args[1]->ToObject();
+            void *buffer_data = node::Buffer::Data(buffer_obj);
+            size_t buffer_length = node::Buffer::Length(buffer_obj);
+            assert(buffer_length == sizeof(int) * 5);
+            obj->context->GlobalImageTexture2D(
+                args[0]->IntegerValue(), /* target */
+                buffer_data
+            );
+        } else {
+            Local<Object> buffer_obj = args[8]->ToObject();
+            glTexImage2D(
+                args[0]->IntegerValue(), /* target */
+                args[1]->IntegerValue(), /* level */
+                args[2]->IntegerValue(), /* internalformat */
+                args[3]->IntegerValue(), /* width */
+                args[4]->IntegerValue(), /* height */
+                args[5]->IntegerValue(), /* border */
+                args[6]->IntegerValue(), /* format */
+                args[7]->IntegerValue(), /* type */
+                ArrayData(buffer_obj) /* pixels */
+            );
+        }
         CatchError();
         return scope.Close(Undefined());
     }
