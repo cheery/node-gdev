@@ -1,0 +1,8 @@
+precision mediump float;
+varying vec2 vTexcoords;
+uniform sampler2D texture;
+uniform vec2 sincos;
+void main(void) {
+    vec2 t = mat2(sincos.y, -sincos.x, sincos.x, sincos.y) * vTexcoords;
+    gl_FragColor = texture2D(texture, t);
+}

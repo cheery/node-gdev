@@ -8,7 +8,7 @@ This software depends on node.js and can be compiled directly on the target mach
 
 ## try it out
 
-Verify you are in debian wheezy on your raspberry pi and do exactly these steps. I haven't written proper build files yet.
+Verify you are in debian wheezy on your raspberry pi and do exactly these steps. I haven't written proper build files yet, but I will do it soon once you'll have more reasons to try it out.
 
     cd /home/pi
     git clone git@github.com:cheery/node-video.git
