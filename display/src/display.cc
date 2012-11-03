@@ -31,12 +31,7 @@ class Display : public node::ObjectWrap {
 };
 
 Display::Display() { }
-Display::~Display() {
-    if (display != NULL){
-        displayClose(display);
-        display = NULL;
-    }
-}
+Display::~Display() { }
 
 Persistent<Function> Display::constructor;
 
