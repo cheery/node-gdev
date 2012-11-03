@@ -1171,6 +1171,7 @@ namespace webgl {
             args[0]->IntegerValue(),
             args[1]->NumberValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform2f(const Arguments& args) {
@@ -1182,6 +1183,7 @@ namespace webgl {
             args[1]->NumberValue(),
             args[2]->NumberValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform3f(const Arguments& args) {
@@ -1194,6 +1196,7 @@ namespace webgl {
             args[2]->NumberValue(),
             args[3]->NumberValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform4f(const Arguments& args) {
@@ -1207,6 +1210,7 @@ namespace webgl {
             args[3]->NumberValue(),
             args[4]->NumberValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform1i(const Arguments& args) {
@@ -1217,6 +1221,7 @@ namespace webgl {
             args[0]->IntegerValue(),
             args[1]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform2i(const Arguments& args) {
@@ -1228,6 +1233,7 @@ namespace webgl {
             args[1]->IntegerValue(),
             args[2]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform3i(const Arguments& args) {
@@ -1240,6 +1246,7 @@ namespace webgl {
             args[2]->IntegerValue(),
             args[3]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
     Handle<Value> Renderer::Uniform4i(const Arguments& args) {
@@ -1253,6 +1260,7 @@ namespace webgl {
             args[3]->IntegerValue(),
             args[4]->IntegerValue()
         );
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1263,6 +1271,7 @@ namespace webgl {
         const int n = 1 * sizeof(GLfloat);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform1fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1273,6 +1282,7 @@ namespace webgl {
         const int n = 2 * sizeof(GLfloat);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform2fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1283,6 +1293,7 @@ namespace webgl {
         const int n = 3 * sizeof(GLfloat);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform3fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1293,6 +1304,7 @@ namespace webgl {
         const int n = 4 * sizeof(GLfloat);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform4fv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1303,6 +1315,7 @@ namespace webgl {
         const int n = 1 * sizeof(GLint);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform1iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1313,6 +1326,7 @@ namespace webgl {
         const int n = 2 * sizeof(GLint);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform2iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1323,6 +1337,7 @@ namespace webgl {
         const int n = 3 * sizeof(GLint);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform3iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1333,6 +1348,7 @@ namespace webgl {
         const int n = 4 * sizeof(GLint);
         Local<Object> buffer_obj = args[1]->ToObject();
         glUniform4iv(args[0]->IntegerValue(), ArraySize(buffer_obj)/n, (GLint*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1347,6 +1363,7 @@ namespace webgl {
             ArraySize(buffer_obj) / (n*n),
             args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
             (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1361,6 +1378,7 @@ namespace webgl {
             ArraySize(buffer_obj) / (n*n),
             args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
             (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
@@ -1375,6 +1393,7 @@ namespace webgl {
             ArraySize(buffer_obj) / (n*n),
             args[1]->BooleanValue()?GL_TRUE:GL_FALSE,
             (GLfloat*)ArrayData(buffer_obj));
+        CatchError();
         return scope.Close(Undefined());
     }
 
