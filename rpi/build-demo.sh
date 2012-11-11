@@ -1,3 +1,3 @@
 CFLAGS="-I/opt/vc/include/"
 
-gcc $CFLAGS demo.c -ldisplay -lvideo -o demo
+gcc $CFLAGS demo.c /home/pi/node-video/rpi/libdisplay.so /home/pi/node-video/rpi/libvideo.so -o demo

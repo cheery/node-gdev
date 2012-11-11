@@ -1,4 +1,6 @@
-# video device library
+# Graphics Device Library
+
+Note: This revision may be broken, use older revision until I'll get everything right if it is.
 
 Purpose of this library is to make access to graphics hardware really easy. Motivation is to get people experimenting with different wild desktop environments, improve conditions at the linux desktop and provide little bit more graphical freedom in small increments.
 
@@ -11,14 +13,14 @@ This software depends on node.js and can be compiled directly on the target mach
 Verify you are in debian wheezy on your raspberry pi and do exactly these steps. I haven't written proper build files yet, but I will do it soon once you'll have more reasons to try it out.
 
     cd /home/pi
-    git clone git@github.com:cheery/node-video.git
-    cd node-video/rpi/
+    git clone git@github.com:cheery/node-gdev.git
+    cd node-gdev/rpi/
     sh build-api.sh
     cd ../display
     node-waf configure build
     cd ..
     node-waf configure build
-    ./node-video tutorial/tutorial-1.js
+    ./node-gdev tutorial/tutorial-1.js
 
 Tutorial-1 draws a triangle to the screen. You can also try demo.js, which just flips colors. The webgl API is mostly complete, but still lacks few vital functions. There will be more tutorials and examples, which are simultaneously being used to make sure everything works and is accessible like it should.
 
@@ -30,11 +32,11 @@ API of this project is still changing and incomplete. Keep this in mind and reme
 
 Now, you may open a context to a display by stating:
 
-    var video = require('video');
-    var display = require('video/display');
+    var gdev = require('gdev');
+    var display = require('gdev/display');
     var primary = display.open(0);
 
-    var gl = video.getContext(primary);
+    var gl = primary.getContext("webgl");
 
     gl.clearColor(0.5, 0.5, 0.5, 0.5);
     gl.clear(gl.COLOR_BUFFER_BIT);
@@ -42,17 +44,19 @@ Now, you may open a context to a display by stating:
 
 You should also be able to make composite surfaces like this:
 
-    var video = require('video');
-    var display = require('video/display');
+    var gdev = require('gdev');
+    var display = require('gdev/display');
     var primary = display.open(0);
 
-    var gl0 = video.getContext(primary);
-    var gl1 = video.getContext({width: 256, height: 256});
+    var surface = new gdev.Surface({width:256, height:256});
+
+    var gl0 = primary.getContext("webgl");
+    var gl1 = surface.getContext("webgl");
 
     // once tested, there will be an example about the feature.
     var tex1 = gl0.createTexture();
     gl0.bindTexture(gl0.TEXTURE2D, tex1);
-    gl0.texImage2D(gl0.TEXTURE2D, gl1.handle);
+    gl0.texImage2D(gl0.TEXTURE2D, surface.handle);
 
 Both display handles and composite handles are Buffer -objects, that can be transmitted over network connection.
 

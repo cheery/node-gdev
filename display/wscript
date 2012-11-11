@@ -11,10 +11,10 @@ def configure(conf):
 def build(bld):
     obj = bld.new_task_gen("cxx", "shlib", "node_addon")
     obj.cxxflags = [
-        "-I/home/pi/node-video/rpi/include/",
+        "-I/home/pi/node-gdev/rpi/include/",
     ]
     obj.linkflags = [
-        "/home/pi/node-video/rpi/libdisplay.so",
+        "/home/pi/node-gdev/rpi/libdisplay.so",
     ]
     obj.target = "display"
     obj.source = "src/init.cc"

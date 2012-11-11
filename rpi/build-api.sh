@@ -3,7 +3,7 @@ LDFLAGS="-L/opt/vc/lib/ -shared"
 CC=gcc
 SOURCES="src/libdisplay.c"
 
-$CC $SOURCES $CFLAGS $LDFLAGS -o libdisplay.so -lbcm_host -lvcos -lvchiq_arm
+$CC $SOURCES $CFLAGS $LDFLAGS -o libdisplay.so -lopenmaxil -lbcm_host -lvcos -lvchiq_arm
 
 SOURCES="src/libvideo.c"
-$CC $SOURCES $CFLAGS $LDFLAGS -o libvideo.so -lEGL -lGLESv2 -lbcm_host -lvcos -lvchiq_arm
+$CC $SOURCES $CFLAGS $LDFLAGS -o libvideo.so -lEGL -lGLESv2 -lopenmaxil -lbcm_host -lvcos -lvchiq_arm

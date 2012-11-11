@@ -35,6 +35,7 @@ int main() {
 
     glViewport ( 0, 0, width, height);
 
+    while (1) {
     // Set background color and clear buffers
     glClearColor(0.15f, 0.25f, 0.35f, 1.0f);
     glClear( GL_COLOR_BUFFER_BIT );
@@ -46,4 +47,5 @@ int main() {
     videoSwapBuffers(surface);
     sleep(1);
 
+    }
 }

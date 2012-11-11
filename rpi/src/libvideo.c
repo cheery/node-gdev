@@ -36,6 +36,7 @@ static void __attribute__ ((destructor)) libraryScrap(void);
 static EGLDisplay display;
 
 static void libraryInit() {
+    bcm_host_init();
     EGLBoolean result;
     display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     assert(display!=EGL_NO_DISPLAY);
@@ -46,6 +47,7 @@ static void libraryInit() {
 
 static void libraryScrap() {
     eglTerminate(display);
+    bcm_host_deinit();
 }
 
 struct surface {

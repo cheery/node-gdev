@@ -1,0 +1,2 @@
+#!/bin/sh
+LD_PRELOAD=/home/pi/node-gdev/rpi/libvideo.so node $@
