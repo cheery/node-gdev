@@ -1,0 +1,2 @@
+#!/bin/sh
+gyp libgdev.gyp --depth=/home/pi/node-gdev/libgdev
