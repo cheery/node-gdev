@@ -30,7 +30,7 @@ parser.add_argument("--debug", action="store_true", dest="debug")
 parser.add_argument("--demo", const="demo", action="append_const", dest="action", help="build demo")
 parser.add_argument("--build", const="build", action="append_const", dest="action", help="build everything")
 parser.add_argument("--clean", const="clean", action="append_const", dest="action", help="clean up")
-#parser.add_argument("--install", const="install", action="append_const", dest="action", help="install")
+parser.add_argument("--install", const="install", action="append_const", dest="action", help="install")
 args = parser.parse_args()
 
 cflags = [
@@ -96,3 +96,9 @@ if 'demo' in args.action:
     print "building&linking out/demo"
     if call([cc] + cflags + ldflags + ["demo.c", '-o', "out/demo"]) != 0:
         sys.exit(1)
+
+if 'install' in args.action:
+    if not os.path.exists("out/libgdev.so"):
+        build_library()
+    shutil.copyfile("out/libgdev.so", "/usr/lib/libgdev.so")
+    shutil.copyfile("include/gdev.h", "/usr/include/gdev.h")
