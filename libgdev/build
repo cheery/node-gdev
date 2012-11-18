@@ -1,0 +1,98 @@
+#!/usr/bin/env python
+import argparse
+import os, sys
+import shutil
+from subprocess import call
+
+def mkdirp(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+def build_all(dest, cc, paths, cflags):
+    for i, path in enumerate(paths):
+        to = os.path.join(dest, "%i.o" % i)
+        print "building %s" % path
+        yield call([cc, '-c'] + cflags + [path, '-o', to])
+
+def link(dest, ld, objs, ldflags):
+    print "linking %s" % dest
+    return call([ld] + objs + ldflags + ['-o', dest])
+
+def roll(commands):
+    error = False
+    for res in commands:
+        if res != 0:
+            error = True
+    return error
+
+parser = argparse.ArgumentParser("build and install libgdev")
+parser.add_argument("--debug", action="store_true", dest="debug")
+parser.add_argument("--demo", const="demo", action="append_const", dest="action", help="build demo")
+parser.add_argument("--build", const="build", action="append_const", dest="action", help="build everything")
+parser.add_argument("--clean", const="clean", action="append_const", dest="action", help="clean up")
+#parser.add_argument("--install", const="install", action="append_const", dest="action", help="install")
+args = parser.parse_args()
+
+cflags = [
+    "-I/opt/vc/include",
+    "-I/opt/vc/include/interface/vcos/pthreads",
+    "-Iinclude",
+]
+if args.debug:
+    cflags += ['-g']
+
+ldflags = [
+    "-shared",
+    "-L/opt/vc/lib",
+    "-lEGL",
+    "-lGLESv2",
+]
+
+sources = [
+    "src/display.c",
+    "src/layer.c",
+    "src/surface.c",
+    "src/image.c",
+    "src/config.c",
+    "src/context.c",
+    "src/gdev.c",
+]
+
+cc = "gcc"
+ld = "gcc"
+
+def build_library():
+    mkdirp('out')
+    if roll(build_all('out', cc, sources, cflags)) != 0:
+        sys.exit(1)
+
+    objs = [os.path.join('out', "%i.o" % i) for i, path in enumerate(sources)]
+    if link('out/libgdev.so', ld, objs, ldflags) != 0:
+        sys.exit(1)
+
+if 'clean' in args.action:
+    shutil.rmtree('out')
+
+
+if 'build' in args.action or args.action == None:
+    build_library()
+
+if 'demo' in args.action:
+    if not os.path.exists("out/libgdev.so"):
+        build_library()
+
+    cflags = [
+        "-I/opt/vc/include",
+        "-Iinclude",
+    ]
+    if args.debug:
+        cflags += ['-g']
+
+    ldflags = [
+        "out/libgdev.so",
+        "-L/opt/vc/lib",
+        "-lGLESv2",
+    ]
+    print "building&linking out/demo"
+    if call([cc] + cflags + ldflags + ["demo.c", '-o', "out/demo"]) != 0:
+        sys.exit(1)
